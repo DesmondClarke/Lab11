@@ -1,10 +1,13 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import services.AccountService;
 
 public class ForgotPasswordServlet extends HttpServlet {
 
@@ -19,6 +22,16 @@ public class ForgotPasswordServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setAttribute("invalidEntry", true);
+        
+        AccountService as = new AccountService();
+        
+        String userEmail = (String) request.getAttribute("email");
+        
+        try {
+            as.forgotPassword(userEmail, "");
+        } catch (Exception ex) {
+            Logger.getLogger(ForgotPasswordServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         getServletContext().getRequestDispatcher("/WEB-INF/forgot.jsp").forward(request, response);
         return;
