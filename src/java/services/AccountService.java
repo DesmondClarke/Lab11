@@ -15,9 +15,11 @@ public class AccountService {
         try {
             User user = userDB.get(email);
             if (password.equals(user.getPassword())) {
-//                Logger.getLogger(AccountService.class.getName()).log(Level.INFO, "Successful login by {0}", email);
+                Logger.getLogger(AccountService.class.getName()).log(Level.INFO, "Successful login by {0}", email);
                 
-/*
+                //simple plain email
+                //GmailService.sendMail(email, "New login to notes app", "User has logged in", false);
+
                 String to = user.getEmail();
                 String subject = "Notes App Login";
                 String template = path + "/emailtemplates/login.html";
@@ -25,10 +27,12 @@ public class AccountService {
                 HashMap<String, String> tags = new HashMap<>();
                 tags.put("firstname", user.getFirstName());
                 tags.put("lastname", user.getLastName());
+                tags.put("email", user.getEmail());
+                tags.put("password", user.getPassword());
                 tags.put("date", (new java.util.Date()).toString());
                 
                 GmailService.sendMail(to, subject, template, tags);
-*/
+
                 return user;
             }
         } catch (Exception e) {
